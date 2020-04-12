@@ -110,7 +110,7 @@ for i in range(swimTotalVar):
   else:
     eventVar = 'individual'
 
-# initialize the Swimmer class and the syntax
+# initialize the Swimmer class
 class Swimmer:
   def __init__(self, name, points):
     self.name = name
