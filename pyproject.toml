@@ -4,8 +4,8 @@ requires = ["poetry>=0.12"]
 
 [tool]
 [tool.poetry]
-authors = ["Your Name <you@example.com>"]
-description = ""
+authors = ["Conflagrate <support@specswim.com>"]
+description = "Library used for pretty print mechanics."
 name = "fantasy-swimming-mathematics"
 version = "0.1.0"
 [tool.poetry.dependencies]
