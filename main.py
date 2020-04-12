@@ -1,9 +1,5 @@
 # note: relays account for half the points as compared to individual events
 
-# project created for the 2020 AP CSP Create Task
-# project started: April 8
-# hours put in: 43 (so far)
-
 import numpy as np
 import statistics as sts
 import matplotlib.pyplot as plt
