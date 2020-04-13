@@ -1,11 +1,31 @@
-# note: relays account for half the points as compared to individual events
+import datetime
 
 import numpy as np
 import statistics as sts
 import matplotlib.pyplot as plt
 
-from datetime import datetime
 from termcolor import colored as clr
+
+# find the time and use it to set a timestamp
+class Time(datetime.tzinfo):
+  def utcoffset(self, x):
+    return datetime.timedelta(hours=-5) + self.dst(x)
+
+  def dst(self, x):
+    date = datetime.datetime(x.year, 3, 8)
+    self.dston = date + datetime.timedelta(days=6-date.weekday())
+    date = datetime.datetime(x.year, 11, 1)
+    self.dstoff = date + datetime.timedelta(days=6-date.weekday())
+    if self.dston <= x.replace(tzinfo=None) < self.dstoff:
+      return datetime.timedelta(hours=1)
+    else:
+      return datetime.timedelta(0)
+
+  def tzname(self, x):
+    return 'Time'
+
+def getTimeStamp():
+  return datetime.datetime.now(tz=Time()).strftime('%Y-%m-%d %H:%M:%S')
 
 def checkOverallPlacement(swimmerPlacement, *, eventType='individual'):
   racePoints = 0
@@ -92,6 +112,7 @@ def checkPercentagePlacement(swimmerPlacement, totalSwimmers, *, eventType='indi
   return float(racePoints)
 
 swimmerName = input('Choose what swimmer to record: ')
+startTime = 'START:', getTimeStamp()
 print('')
 swimTotalVar = int(input('How many races were swam?: '))
 
@@ -111,10 +132,12 @@ class Swimmer:
   def __init__(self, name, points):
     self.name = name
     self.points = points
+
   def calculateRacePoints(name):
     for i in range(swimTotalVar):
       racePoints = checkOverallPlacement(placementVar, eventType=eventVar) + checkPercentagePlacement(placementVar, totalVar, eventType=eventVar)
       racePoints = racePoints + racePoints
+
     return float(racePoints)
 
 swimmer = Swimmer(swimmerName, Swimmer.calculateRacePoints(swimmerName)) # create the swimmer with the given specs
@@ -122,7 +145,9 @@ swimmer = Swimmer(swimmerName, Swimmer.calculateRacePoints(swimmerName)) # creat
 print('')
 print(swimmer.name, 'earned', swimmer.points, 'points!')
 
-cleanOutput = swimmer.name, swimmer.points
+endTime = 'END:', getTimeStamp()
+
+cleanOutput = startTime, endTime, swimmer.name.upper(), swimmer.points
 cleanOutput = str(cleanOutput) + '\n'
 
 output = open('output.csv', 'a+')
