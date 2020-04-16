@@ -111,6 +111,22 @@ def checkPercentagePlacement(swimmerPlacement, totalSwimmers, *, eventType='indi
 
   return float(racePoints)
 
+def checkImprovement(seedTime, prelimTime, finalTime): # convert times to seconds first
+  if prelimTime == finalTime:
+    timeDifference = finalTime - seedTime
+  else:
+    if prelimTime < finalTime:
+      timeDifference = prelimTime - seedTime
+    else:
+      timeDifference = finalTime - seedTime
+  
+  timeDifference = float(timeDifference) # redefine as float for precision and accuracy
+
+  if timeDifference >= 0:
+    return timeDifference
+  else:
+    return timeDifference
+
 swimmerName = input('Choose what swimmer to record: ')
 startTime = 'START:', getTimeStamp()
 print('')
@@ -118,6 +134,9 @@ swimTotalVar = int(input('How many races were swam?: '))
 
 for i in range(swimTotalVar):
   print('')
+  seedTime = float(input('What was the seed time (in seconds and milliseconds)?: '))
+  prelimTime = float(input('What was the prelim time?: '))
+  finalTime = float(input('What was the final time?: '))
   placementVar = int(input('What was the placement?: '))
   totalVar = int(input('How many swimmers swam in total?: '))
   eventVar = input('Was the event a relay or individual? (defaults to individual): ')
@@ -135,7 +154,7 @@ class Swimmer:
 
   def calculateRacePoints(name):
     for i in range(swimTotalVar):
-      racePoints = checkOverallPlacement(placementVar, eventType=eventVar) + checkPercentagePlacement(placementVar, totalVar, eventType=eventVar)
+      racePoints = checkOverallPlacement(placementVar, eventType=eventVar) + checkPercentagePlacement(placementVar, totalVar, eventType=eventVar) + checkImprovement(seedTime, prelimTime, finalTime)
       racePoints = racePoints + racePoints
 
     return float(racePoints)
