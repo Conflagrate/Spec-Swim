@@ -113,7 +113,7 @@ def checkPercentagePlacement(swimmerPlacement, totalSwimmers, *, eventType='indi
 
 def checkImprovement(seedTime, prelimTime, finalTime): # convert times to seconds first
   if prelimTime == finalTime:
-    timeDifference = finalTime - seedTime
+    timeDifference = prelimTime - seedTime
   else:
     if prelimTime < finalTime:
       timeDifference = prelimTime - seedTime
@@ -123,9 +123,9 @@ def checkImprovement(seedTime, prelimTime, finalTime): # convert times to second
   timeDifference = float(timeDifference) # re-define as float for precision and accuracy
 
   if timeDifference >= 0:
-    return timeDifference
-  else:
-    return timeDifference
+    return (-1 * timeDifference) / 4 # for each added 0.5, net -1 point
+  elif timeDifference < 0:
+    return abs(timeDifference) / 4 # for each drop of 0.5, net +1 point
 
 swimmerName = input('Choose what swimmer to record: ')
 swimmerName = swimmerName.strip() # strip leading/trailing whitespace
