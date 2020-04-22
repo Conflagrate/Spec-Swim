@@ -28,10 +28,10 @@ The official rule book has not yet been published, but here is a simple breakdow
 | Top 75%             | 0.5      |
 | Last Place             | -5      |
 
-| Improvement | Points |
+| Net Time Differential | Points |
 |:---------:|:---------:|
-| -0.5 | 1 |
-| +0.5 | -1 |
+| -0.5 second(s) | 1 |
+| +0.5 second(s) | -1 |
 
 ### Relay Events
 | Placement     | Points        |
@@ -49,10 +49,10 @@ The official rule book has not yet been published, but here is a simple breakdow
 | Top 75%             | 0.25      |
 | Last Place             | -5      |
 
-| Improvement | Points |
+| Net Time Differential | Points |
 |:---------:|:---------:|
-| -0.5 | 1 |
-| +0.5 | -1 |
+| -0.5 second(s) | 1 |
+| +0.5 second(s) | -1 |
 
 **Some important things you should have noticed:**
 
