@@ -120,7 +120,7 @@ def checkImprovement(seedTime, prelimTime, finalTime): # convert times to second
     else:
       timeDifference = finalTime - seedTime
   
-  timeDifference = float(timeDifference) # redefine as float for precision and accuracy
+  timeDifference = float(timeDifference) # re-define as float for precision and accuracy
 
   if timeDifference >= 0:
     return timeDifference
@@ -128,7 +128,11 @@ def checkImprovement(seedTime, prelimTime, finalTime): # convert times to second
     return timeDifference
 
 swimmerName = input('Choose what swimmer to record: ')
-startTime = 'START:', getTimeStamp()
+swimmerName = swimmerName.strip() # strip leading/trailing whitespace
+nameLength = len(swimmerName) # save length for formatting
+
+startTime = 'LOGGED FROM', getTimeStamp()
+
 print('')
 swimTotalVar = int(input('How many races were swam?: '))
 
@@ -154,8 +158,8 @@ class Swimmer:
 
   def calculateRacePoints(name):
     for i in range(swimTotalVar):
-      racePoints = checkOverallPlacement(placementVar, eventType=eventVar) + checkPercentagePlacement(placementVar, totalVar, eventType=eventVar) + checkImprovement(seedTime, prelimTime, finalTime)
-      racePoints = racePoints + racePoints
+      racePoints = checkOverallPlacement(placementVar, eventType=eventVar) + checkPercentagePlacement(placementVar, totalVar, eventType=eventVar) + checkImprovement(seedTime, prelimTime, finalTime) # calculate points based on all factors
+      racePoints = racePoints + racePoints # originally set at '0' so need to add racePoints again
 
     return float(racePoints)
 
@@ -164,11 +168,25 @@ swimmer = Swimmer(swimmerName, Swimmer.calculateRacePoints(swimmerName)) # creat
 print('')
 print(swimmer.name, 'earned', swimmer.points, 'points!')
 
-endTime = 'END:', getTimeStamp()
+endTime = 'TO', getTimeStamp()
 
-cleanOutput = startTime, endTime, swimmer.name.upper(), swimmer.points
-cleanOutput = str(cleanOutput) + '\n'
+cleanOutput = startTime, endTime, swimmer.name.upper(), swimmer.points, 'POINTS'
+cleanOutput = str(cleanOutput) + '\n' # convert to string for easy file writing
 
-output = open('output.csv', 'a+')
+for removal in "(,')": # don't want any ugly characters
+  cleanOutput = cleanOutput.replace(removal, '') # replace unwanted characters with a blank spot
+
+indexOfOutput = 0 # unnecessary variable? refactor later
+
+# format the output in a more readable manner
+cleanOutput = cleanOutput[:(indexOfOutput + 12)] + '[' + cleanOutput[indexOfOutput + 12:]
+cleanOutput = cleanOutput[:(indexOfOutput + 32)] + ']' + cleanOutput[indexOfOutput + 32:]
+cleanOutput = cleanOutput[:(indexOfOutput + 37)] + '[' + cleanOutput[indexOfOutput + 37:]
+cleanOutput = cleanOutput[:(indexOfOutput + 57)] + ']' + cleanOutput[indexOfOutput + 57:]
+cleanOutput = cleanOutput[:(indexOfOutput + 59)] + '[' + cleanOutput[indexOfOutput + 59:]
+cleanOutput = cleanOutput[:(59 + nameLength + 1)] + ']' + cleanOutput[59 + nameLength + 1:] # add 1 as output fix
+cleanOutput = cleanOutput[:(59 + nameLength + 2)] + ':' + cleanOutput[59 + nameLength + 2:] # add 2 to directly follow ']'
+
+output = open('output.csv', 'a+') # 'a+' to create file and prevent errors
 output.write(cleanOutput)
 output.close()
