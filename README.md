@@ -69,3 +69,5 @@ The maximum amount of points that can be achieved for an individual event (witho
 The maximum amount of points that can be achieved for a relay event is (without factoring in time improvement, or the lack thereof) **18.25 points**.
 
 *These rules are subject to change, but an official notice will be released to all users several days prior to any changes.*
+
+**For each meet day, the participant may submit exactly one (1) event to have scored. This is to prevent swimmers who are competing in more events to have an unfair advantage. Swimmers who compete in relays will be scored against each other whereas strictly individual performers will be scored in a separate bracket. This is also meant to prevent unfair point inflation.**
