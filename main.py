@@ -1,10 +1,11 @@
 import datetime
 
-import numpy as np
-import statistics as sts
-import matplotlib.pyplot as plt
+import math
+import numpy as np # use later
+import statistics as sts # use later
+import matplotlib.pyplot as plt # fun to see a plot of events
 
-from termcolor import colored as clr
+from termcolor import colored as clr # just to get a nice output
 
 # find the time and use it to set a timestamp
 class Time(datetime.tzinfo):
@@ -129,9 +130,9 @@ def checkImprovement(seedTime, prelimTime, finalTime): # convert times to second
 
 swimmerName = input('Choose what swimmer to record: ')
 swimmerName = swimmerName.strip() # strip leading/trailing whitespace
-nameLength = len(swimmerName) # save length for formatting
+nameLength = len(swimmerName) # save length for future formatting
 
-startTime = 'LOGGED FROM', getTimeStamp()
+startTime = 'LOGGED FROM', getTimeStamp() # get the beginning time stamp
 
 print('')
 swimTotalVar = int(input('How many races were swam?: '))
@@ -153,11 +154,11 @@ for i in range(swimTotalVar):
 # initialize the Swimmer class
 class Swimmer:
   def __init__(self, name, points):
-    self.name = name
-    self.points = points
+    self.name = name # swimmer name
+    self.points = points # swimmer points
 
   def calculateRacePoints(name):
-    for i in range(swimTotalVar):
+    for i in range(swimTotalVar): # repeat for number of races
       racePoints = checkOverallPlacement(placementVar, eventType=eventVar) + checkPercentagePlacement(placementVar, totalVar, eventType=eventVar) + checkImprovement(seedTime, prelimTime, finalTime) # calculate points based on all factors
       racePoints = racePoints + racePoints # originally set at '0' so need to add racePoints again
 
@@ -166,11 +167,11 @@ class Swimmer:
 swimmer = Swimmer(swimmerName, Swimmer.calculateRacePoints(swimmerName)) # create the swimmer with the given specs
 
 print('')
-print(swimmer.name, 'earned', swimmer.points, 'points!')
+print(swimmer.name, 'earned', int(math.ceil(swimmer.points)), 'points!') # raw format (math.ceil() to round up regardless of decimal)
 
 endTime = 'TO', getTimeStamp()
 
-cleanOutput = startTime, endTime, swimmer.name.upper(), swimmer.points, 'POINTS'
+cleanOutput = startTime, endTime, swimmer.name.upper(), int(math.ceil(swimmer.points)), 'POINTS'
 cleanOutput = str(cleanOutput) + '\n' # convert to string for easy file writing
 
 for removal in "(,')": # don't want any ugly characters
@@ -187,6 +188,6 @@ cleanOutput = cleanOutput[:(indexOfOutput + 59)] + '[' + cleanOutput[indexOfOutp
 cleanOutput = cleanOutput[:(59 + nameLength + 1)] + ']' + cleanOutput[59 + nameLength + 1:] # add 1 as output fix
 cleanOutput = cleanOutput[:(59 + nameLength + 2)] + ':' + cleanOutput[59 + nameLength + 2:] # add 2 to directly follow ']'
 
-output = open('output.csv', 'a+') # 'a+' to create file and prevent errors
-output.write(cleanOutput)
-output.close()
+output = open('output.csv', 'a+') # 'a+' to create file and prevent errors if file is not found
+output.write(cleanOutput) # append output
+output.close() # close file
