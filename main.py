@@ -168,7 +168,7 @@ class Swimmer:
       racePoints = checkOverallPlacement(placementVar, eventType=eventVar) + checkPercentagePlacement(placementVar, totalVar, eventType=eventVar) + checkImprovement(seedTime, prelimTime, finalTime) # calculate points based on all factors
       racePoints = racePoints + racePoints # originally set at '0' so need to add racePoints again
 
-    return float(racePoints)
+    return float(racePoints / swimTotalVar)
 
 swimmer = Swimmer(swimmerName, Swimmer.calculateRacePoints(swimmerName)) # create the swimmer with the given specs
 
