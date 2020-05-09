@@ -1,11 +1,7 @@
+import math
 import datetime
 
-import math
-import numpy as np # use later
-import statistics as sts # use later
-import matplotlib.pyplot as plt # fun to see a plot of events
-
-from termcolor import colored as clr # just to get a nice output
+from dataclasses import dataclass
 
 # find the time and use it to set a timestamp
 class Time(datetime.tzinfo):
@@ -152,6 +148,16 @@ for i in range(swimTotalVar):
     eventVar = 'individual'
 
 # initialize the Swimmer class
+
+'''
+@dataclass
+class Swimmer:
+  name: str
+  points: float
+
+swimmer = Swimmer(swimmerName, Swimmer.calculateRacePoints(swimmerName))
+'''
+
 class Swimmer:
   def __init__(self, name, points):
     self.name = name # swimmer name
