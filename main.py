@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from dataclasses import dataclass
-from graphing import graph_results
+from graphing import graph
 
 # find the time and use it to set a timestamp
 class Time(datetime.tzinfo):
@@ -202,4 +202,4 @@ output = open('logs.csv', 'a+') # 'a+' to create file and prevent errors if file
 output.write(cleanOutput) # append output
 output.close() # close file
 
-graph_results(swimmerName.upper(), int(math.ceil(swimmer.points)), 'cyan')
+graph(swimmerName.upper(), int(math.ceil(swimmer.points)), 'cyan') # uses other created file to graph
