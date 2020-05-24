@@ -1,7 +1,11 @@
 import math
 import datetime
 
+import numpy as np
+import matplotlib.pyplot as plt
+
 from dataclasses import dataclass
+from graphing import graph_results
 
 # find the time and use it to set a timestamp
 class Time(datetime.tzinfo):
@@ -178,7 +182,7 @@ print(swimmer.name, 'earned', int(math.ceil(swimmer.points)), 'points!') # raw f
 endTime = 'TO', getTimeStamp()
 
 cleanOutput = startTime, endTime, swimmer.name.upper(), int(math.ceil(swimmer.points)), 'POINTS'
-cleanOutput = str(cleanOutput) + '\n' # convert to string for easy file writing
+cleanOutput = str(cleanOutput) + '\n' # convert to string for file writing
 
 for removal in "(,')": # don't want any ugly characters
   cleanOutput = cleanOutput.replace(removal, '') # replace unwanted characters with a blank spot
@@ -194,6 +198,8 @@ cleanOutput = cleanOutput[:(indexOfOutput + 59)] + '[' + cleanOutput[indexOfOutp
 cleanOutput = cleanOutput[:(59 + nameLength + 1)] + ']' + cleanOutput[59 + nameLength + 1:] # add 1 as output fix
 cleanOutput = cleanOutput[:(59 + nameLength + 2)] + ':' + cleanOutput[59 + nameLength + 2:] # add 2 to directly follow ']'
 
-output = open('output.csv', 'a+') # 'a+' to create file and prevent errors if file is not found
+output = open('logs.csv', 'a+') # 'a+' to create file and prevent errors if file is not found
 output.write(cleanOutput) # append output
 output.close() # close file
+
+graph_results(swimmerName.upper(), int(math.ceil(swimmer.points)), 'cyan')
