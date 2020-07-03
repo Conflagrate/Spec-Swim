@@ -128,28 +128,41 @@ def checkImprovement(seedTime, prelimTime, finalTime): # convert times to second
   elif timeDifference < 0:
     return abs(timeDifference) / 4 # for each drop of 0.5, net +1 point
 
-swimmerName = input('Choose what swimmer to record: ')
-swimmerName = swimmerName.strip() # strip leading/trailing whitespace
-nameLength = len(swimmerName) # save length for future formatting
+swimmerTotal = int(input('How many swimmers will be recorded?: '))
 
-startTime = 'LOGGED FROM', getTimeStamp() # get the beginning time stamp
+n = 0
+unfixedList = [None] * swimmerTotal
 
-print('')
-swimTotalVar = int(input('How many races were swam?: '))
+for x in range(swimmerTotal):
+  swimmerName = input('Choose what swimmer to record: ')
+  swimmerName = swimmerName.strip() # strip leading/trailing whitespace
+  nameLength = len(swimmerName) # save length for future formatting
 
-for i in range(swimTotalVar):
+  startTime = 'LOGGED FROM', getTimeStamp() # get the beginning time stamp
+
   print('')
-  seedTime = float(input('What was the seed time (in seconds and milliseconds)?: '))
-  prelimTime = float(input('What was the prelim time?: '))
-  finalTime = float(input('What was the final time?: '))
-  placementVar = int(input('What was the placement?: '))
-  totalVar = int(input('How many swimmers swam in total?: '))
-  eventVar = input('Was the event a relay or individual? (defaults to individual): ')
+  swimTotalVar = int(input('How many races were swam?: '))
 
-  if eventVar.lower() == 'relay' or eventVar.lower() == 'individual':
-    eventVar = eventVar
-  else:
-    eventVar = 'individual'
+  for i in range(swimTotalVar): # repeat for number of races
+    print('')
+    seedTime = float(input('What was the seed time (in seconds and milliseconds)?: '))
+    prelimTime = float(input('What was the prelim time?: '))
+    finalTime = float(input('What was the final time?: '))
+    placementVar = int(input('What was the placement?: '))
+    totalVar = int(input('How many swimmers swam in total?: '))
+    eventVar = input('Was the event a relay or individual? (defaults to individual): ')
+
+    if eventVar.lower() == 'relay' or eventVar.lower() == 'individual':
+      eventVar = eventVar
+    else:
+      eventVar = 'individual'
+
+    racePoints = checkOverallPlacement(placementVar, eventType=eventVar) + checkPercentagePlacement(placementVar, totalVar, eventType=eventVar) + checkImprovement(seedTime, prelimTime, finalTime) # calculate points based on all factors
+    racePoints = racePoints + racePoints # originally set at '0' so need to add racePoints again
+    pointAverage = float(racePoints / swimTotalVar)
+    unfixedList[n + 1] = pointAverage
+
+print(unfixedList)
 
 # initialize the Swimmer class
 
@@ -160,7 +173,7 @@ class Swimmer:
   points: float
 
 swimmer = Swimmer(swimmerName, Swimmer.calculateRacePoints(swimmerName))
-'''
+
 
 class Swimmer:
   def __init__(self, name, points):
@@ -203,3 +216,4 @@ output.write(cleanOutput) # append output
 output.close() # close file
 
 graph(swimmerName.upper(), int(math.ceil(swimmer.points)), 'cyan') # uses other created file to graph
+'''

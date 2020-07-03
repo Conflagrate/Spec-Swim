@@ -9,6 +9,6 @@ description = "Library used for pretty print mechanics."
 name = "fantasy-swimming-mathematics"
 version = "0.1.0"
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 termcolor = "^1.1"
 [tool.poetry.dev-dependencies]
