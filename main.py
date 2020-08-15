@@ -4,8 +4,9 @@ import datetime
 import numpy as np
 import matplotlib.pyplot as plt
 
-from dataclasses import dataclass
 from graphing import graph
+from termcolor import colored
+from dataclasses import dataclass
 
 # find the time and use it to set a timestamp
 class Time(datetime.tzinfo):
@@ -130,8 +131,9 @@ def checkImprovement(seedTime, prelimTime, finalTime): # convert times to second
 
 swimmerTotal = int(input('How many swimmers will be recorded?: '))
 
-n = 0
-unfixedList = [None] * swimmerTotal
+
+pointsList = [None] * swimmerTotal
+swimmerList = [None] * swimmerTotal
 
 for x in range(swimmerTotal):
   swimmerName = input('Choose what swimmer to record: ')
@@ -160,45 +162,19 @@ for x in range(swimmerTotal):
     racePoints = checkOverallPlacement(placementVar, eventType=eventVar) + checkPercentagePlacement(placementVar, totalVar, eventType=eventVar) + checkImprovement(seedTime, prelimTime, finalTime) # calculate points based on all factors
     racePoints = racePoints + racePoints # originally set at '0' so need to add racePoints again
     pointAverage = float(racePoints / swimTotalVar)
-    unfixedList[n + 1] = pointAverage
 
-print(unfixedList)
-
-# initialize the Swimmer class
-
-'''
-@dataclass
-class Swimmer:
-  name: str
-  points: float
-
-swimmer = Swimmer(swimmerName, Swimmer.calculateRacePoints(swimmerName))
-
-
-class Swimmer:
-  def __init__(self, name, points):
-    self.name = name # swimmer name
-    self.points = points # swimmer points
-
-  def calculateRacePoints(name):
-    for i in range(swimTotalVar): # repeat for number of races
-      racePoints = checkOverallPlacement(placementVar, eventType=eventVar) + checkPercentagePlacement(placementVar, totalVar, eventType=eventVar) + checkImprovement(seedTime, prelimTime, finalTime) # calculate points based on all factors
-      racePoints = racePoints + racePoints # originally set at '0' so need to add racePoints again
-
-    return float(racePoints / swimTotalVar)
-
-swimmer = Swimmer(swimmerName, Swimmer.calculateRacePoints(swimmerName)) # create the swimmer with the given specs
-
-print('')
-print(swimmer.name, 'earned', int(math.ceil(swimmer.points)), 'points!') # raw format (math.ceil() to round up regardless of decimal)
+print('\n')
+for x in range(swimmerTotal):
+  print(swimmerList[n2], 'earned', int(math.ceil(pointsList[n2])), 'points!') # raw format (math.ceil() to round up regardless of decimal)
 
 endTime = 'TO', getTimeStamp()
 
-cleanOutput = startTime, endTime, swimmer.name.upper(), int(math.ceil(swimmer.points)), 'POINTS'
-cleanOutput = str(cleanOutput) + '\n' # convert to string for file writing
+for x in range(swimmerTotal):
+  cleanOutput = startTime, endTime, swimmerList[n3].upper(), int(math.ceil(pointsList[n3])), 'POINTS'
+  cleanOutput = str(cleanOutput) + '\n' # convert to string for file writing
 
-for removal in "(,')": # don't want any ugly characters
-  cleanOutput = cleanOutput.replace(removal, '') # replace unwanted characters with a blank spot
+  for removal in "(,')": # don't want any ugly characters
+    cleanOutput = cleanOutput.replace(removal, '') # replace unwanted characters with a blank spot
 
 indexOfOutput = 0 # unnecessary variable? refactor later
 
@@ -214,6 +190,3 @@ cleanOutput = cleanOutput[:(59 + nameLength + 2)] + ':' + cleanOutput[59 + nameL
 output = open('logs.csv', 'a+') # 'a+' to create file and prevent errors if file is not found
 output.write(cleanOutput) # append output
 output.close() # close file
-
-graph(swimmerName.upper(), int(math.ceil(swimmer.points)), 'cyan') # uses other created file to graph
-'''

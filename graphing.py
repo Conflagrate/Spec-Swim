@@ -9,5 +9,3 @@ def graph(name, points, bar_color):
   plt.savefig(f'{name}.png') # remove f-string for name when overlay is available [TODO]
 
   plt.show()
-
-  return 'Finished graphing.'
